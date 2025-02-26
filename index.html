@@ -38,6 +38,30 @@
                 align-items: center;
             }
         }
+
+        #advice-container {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+
     </style>
 </head>
 <body>
@@ -53,5 +77,29 @@
        incorporate machine learning, and NLP.</p>
 
     <p>Feel free to explore my website as I add more features! </p>
+    <details>
+        <summary>Learn something new about 'details'</summary>
+        The <details> element creates a collapsible section, hidden by default, that expands when the user clicks the <summary>. 
+        This is great for interactive, space-efficient layouts like FAQs. 
+        It also includes a built-in disclosure triangle, requiring no extra JavaScript.
+      </details>
+
+      <h2>Random Advice Generator</h2>
+    <div id="advice-container">
+        <p id="advice">Click the button to get some advice!</p>
+    </div>
+    <button onclick="fetchAdvice()">Get Advice</button>
+
+      <script>
+        function fetchAdvice() {
+            fetch('https://api.adviceslip.com/advice')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('advice').textContent = data.slip.advice;
+                })
+                .catch(error => console.error('Error fetching advice:', error));
+        }
+    </script>
+      
 </body>
 </html>
