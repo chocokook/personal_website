@@ -5,19 +5,52 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="Welcome to Xinyi Yang's Website">
+    <meta property="og:description" content="Check out my projects, blog posts, and interactive experiments!">
+    <meta property="og:image" content="pic.jpg"> 
+    <meta property="og:url" content="https://chocokook.github.io/personal_website/"> 
+    <meta property="og:type" content="website">
+
+
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
+        /* Restrict page width for better layout */
+        .content {
+            max-width: 800px;
+            width: 90%;
+        }
+
+        /* Profile section */
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .profile img {
+            width: 120px; /* Reduce profile picture size */
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        /* Main content layout */
         .container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 20px;
-            padding: 20px;
+            margin-top: 20px;
         }
 
         .item {
@@ -26,11 +59,7 @@
             border-radius: 10px;
         }
 
-        img {
-            max-width: 100%;
-            border-radius: 50%;
-        }
-
+        /* Mobile-friendly adjustments */
         @media (max-width: 600px) {
             .container {
                 display: flex;
@@ -39,6 +68,7 @@
             }
         }
 
+        /* Random advice section */
         #advice-container {
             margin-top: 20px;
             padding: 15px;
@@ -60,46 +90,71 @@
         button:hover {
             background-color: #0056b3;
         }
-
-
     </style>
 </head>
 <body>
 
-    <h1>Welcome to My Website!</h1>
-    
-    <!-- Add your image -->
-    <img src="pic.jpg" alt="My Profile Picture">
+    <div class="content">
+        <h1>Welcome to My Website!</h1>
+        
+        <!-- Profile Section -->
+        <div class="profile">
+            <img src="pic.jpg" alt="My Profile Picture">
+            <p>Hi! My name is Xinyi Yang, and I am an Information Science student at Cornell Tech. 
+               I love working on data-driven and interactive products, and I enjoy building projects that 
+               incorporate machine learning and NLP.</p>
+            <p>Feel free to explore my website as I add more features!</p>
+        </div>
 
-    <!-- Add a short bio -->
-    <p>Hii! My name is Xinyi Yang, and I am an Information Science student at Cornell Tech. 
-       I love working on data-driven and interactive products, and I enjoy building projects that 
-       incorporate machine learning, and NLP.</p>
+        <!-- Expandable Details Section -->
+        <details>
+            <summary>Learn something new about the 'details' element</summary>
+            The 'details' element creates a collapsible section, hidden by default, that expands when the user clicks the 'summary'. 
+            This is great for interactive, space-efficient layouts like FAQs. 
+            It also includes a built-in disclosure triangle, requiring no extra JavaScript.
+        </details>
 
-    <p>Feel free to explore my website as I add more features! </p>
-    <details>
-        <summary>Learn something new about 'details'</summary>
-        The 'details' element creates a collapsible section, hidden by default, that expands when the user clicks the 'summary'. 
-        This is great for interactive, space-efficient layouts like FAQs. 
-        It also includes a built-in disclosure triangle, requiring no extra JavaScript.
-    </details>
+        <!-- Main Content Boxes -->
+        <div class="container">
+            <div class="item">Content Box 1</div>
+            <div class="item">Content Box 2</div>
+        </div>
 
-      <h2>Random Advice Generator</h2>
-    <div id="advice-container">
-        <p id="advice">Click the button to get some advice!</p>
+        <!-- Random Advice Generator -->
+        <h2>Random Advice Generator</h2>
+        <div id="advice-container">
+            <p id="advice">Click the button to get some advice!</p>
+        </div>
+        <button onclick="fetchAdvice()">Get Advice</button>
     </div>
-    <button onclick="fetchAdvice()">Get Advice</button>
 
-      <script>
+    <script>
         function fetchAdvice() {
             fetch('https://api.adviceslip.com/advice')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('advice').textContent = data.slip.advice;
+                    let adviceText = data.slip.advice;
+                    let adviceElement = document.getElementById('advice');
+                    adviceElement.textContent = "";
+                    let i = 0;
+        
+                    // Define function inside fetchAdvice
+                    function typeEffect() {
+                        if (i < adviceText.length) {
+                            adviceElement.textContent += adviceText[i];
+                            i++;
+                            setTimeout(typeEffect, 25);
+                        }
+                    }
+        
+                    // Call the function after defining it
+                    typeEffect();
                 })
                 .catch(error => console.error('Error fetching advice:', error));
         }
+        
     </script>
       
 </body>
 </html>
+
